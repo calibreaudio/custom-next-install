@@ -7,7 +7,10 @@ const config: Config = {
   ],
   theme: {},
   plugins: [
-    require('tailwindcss-radix')
+    require('tailwindcss-radix'),
+    require('@tailwindcss/typography'),
+    require('@tailwindcss/aspect-ratio'),
+    require('@tailwindcss/forms'),
   ],
 }
 export default config
