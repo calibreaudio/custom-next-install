@@ -11,15 +11,14 @@ const Button = React.forwardRef<HTMLButtonElement, Props>(
       ref={ref}
       {...props}
       className={clsx(
-        "inline-flex select-none items-center justify-center rounded-md px-4 py-2 text-sm font-medium",
-        "bg-slate-50 text-slate-700 hover:bg-slate-100 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-900",
-        "hover:bg-slate-50",
-        "focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75",
+        "inline-flex items-center rounded-md px-4 py-3 text-sm font-medium shadow-sm transition-colors duration-150 ease-in-out",
+        "bg-pink-700 hover:bg-pink-600 text-white dark:bg-pink-200 dark:hover:bg-pink-300 dark:text-pink-950",
+        "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink-600'",
         // Register all radix states
         "group",
-        "radix-state-open:bg-slate-50 dark:radix-state-open:bg-slate-900",
-        "radix-state-on:bg-slate-50 dark:radix-state-on:bg-slate-900",
-        "radix-state-instant-open:bg-slate-50 radix-state-delayed-open:bg-slate-50"
+        "radix-state-open:bg-pink-700 dark:radix-state-open:bg-pink-200",
+        "radix-state-on:bg-pink-700 dark:radix-state-on:bg-pink-200",
+        "radix-state-instant-open:bg-pink-700 radix-state-delayed-open:bg-pink-700"
       )}
     >
       {children}

@@ -9,6 +9,7 @@ const config: StorybookConfig = {
     },
   },
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
+  staticDirs: ['../public'],
   webpackFinal: async (config) => {
     if (config.resolve) {
       config.resolve.alias = {
@@ -25,6 +26,7 @@ const config: StorybookConfig = {
     "@storybook/addon-interactions",
     "@storybook/addon-styling-webpack",
     "@storybook/addon-themes",
+    "@storybook/addon-a11y",
   ],
   docs: {
     autodocs: "tag",

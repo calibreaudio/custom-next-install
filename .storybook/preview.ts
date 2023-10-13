@@ -1,5 +1,5 @@
 import type { Preview, ReactRenderer } from "@storybook/react";
-import { withThemeByClassName } from '@storybook/addon-themes';
+import { withThemeByDataAttribute } from '@storybook/addon-themes';
 
 import '../src/app/globals.css'
 
@@ -9,20 +9,16 @@ const preview: Preview = {
       appDirectory: true,
     },
     actions: { argTypesRegex: "^on[A-Z].*" },
-    controls: {
-      matchers: {
-        color: /(background|color)$/i,
-        date: /Date$/,
-      },
-    },
+    layout: 'centered',
   },
   decorators: [
-    withThemeByClassName<ReactRenderer>({
+    withThemeByDataAttribute<ReactRenderer>({
       themes: {
-        light: "",
+        light: "light",
         dark: "dark",
       },
       defaultTheme: "light",
+      attributeName: "data-mode",
     }),
   ]
 };

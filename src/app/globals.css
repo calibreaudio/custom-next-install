@@ -2,19 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background-rgb: 241, 245, 249;
-  --main-font-rgb: 15, 23, 42;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background-rgb: 15, 23, 42;
-    --main-font-rgb: 248, 250, 252;
-  }
-}
-
-body {
-  color: rgb(var(--main-font-rgb));
-  background: rgb(var(--background-rgb))
+@layer base {
+	body {
+		@apply bg-slate-100 text-slate-900 dark:bg-slate-900 dark:text-slate-50 min-h-screen relative;
+	}
 }
