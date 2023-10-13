@@ -2,64 +2,128 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useIsomorphicLayoutEffect } from '@/lib/hooks/useIsomorphicLayoutEffect';
+import useSetting from '@/lib/utils/theme-setting';
 import * as Popover from '@radix-ui/react-popover';
 import clsx from '@/lib/utils/clsx';
 import Icon from '@/lib/utils/icon';
 
 interface ThemeSwitcherProps {}
 
-export default function ThemeSwitcher(props: ThemeSwitcherProps) {
-
-  const themes = [
-    {
-      key: 'light',
-      icon: 'sun-bright',
-      label: 'Light'
-    },
-    {
-      key: 'dark',
-      icon: 'moon',
-      label: 'Dark'
-    },
-    {
-      key: 'system',
-      icon: 'robot',
-      label: 'System'
+function update() {
+  document.documentElement.classList.add('changing-theme');
+  if (
+    localStorage.theme === 'dark' ||
+    (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+  ) {
+    document.documentElement.classList.add('dark');
+    const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+    if (themeColorMeta) {
+      themeColorMeta.setAttribute('content', '#0f172a');
     }
-  ];
+  } else {
+    document.documentElement.classList.remove('dark');
+    const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+    if (themeColorMeta) {
+      themeColorMeta.setAttribute('content', '#f1f5f9');
+    }
+  }
+  window.setTimeout(() => {
+    document.documentElement.classList.remove('changing-theme');
+  });
+}
 
-  const [preferredTheme, setPreferredTheme] = useState<null | string>(null);
-  const [mounted, setMounted] = useState(false);
+const themes = [
+  {
+    value: 'light',
+    icon: 'sun-bright',
+    label: 'Light'
+  },
+  {
+    value: 'dark',
+    icon: 'moon',
+    label: 'Dark'
+  },
+  {
+    value: 'system',
+    icon: 'robot',
+    label: 'System'
+  }
+];
+
+function useTheme() {
+  let { setting, setSetting } = useSetting()
+  let initial = useRef(true)
+
+  useIsomorphicLayoutEffect(() => {
+    let theme = localStorage.theme
+    if (theme === 'light' || theme === 'dark') {
+      setSetting(theme)
+    } else {
+      setSetting('system')
+    }
+  }, [])
+
+  useIsomorphicLayoutEffect(() => {
+    if (setting === 'system') {
+      localStorage.removeItem('theme')
+    } else if (setting === 'light' || setting === 'dark') {
+      localStorage.theme = setting
+    }
+    if (initial.current) {
+      initial.current = false
+    } else {
+      update()
+    }
+  }, [setting])
 
   useEffect(() => {
-    setMounted(true);
-    try {
-      let found = localStorage.getItem("theme");
-      setPreferredTheme(found);
-    } catch (error) {}
-  }, []);
+    let mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
 
-  useEffect(() => {
-    const prefersDarkQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    const updateTheme = (_e: MediaQueryListEvent) => {
-      setPreferredTheme("system");
-    };
-    prefersDarkQuery.addEventListener("change", updateTheme);
+    if (mediaQuery?.addEventListener) {
+      mediaQuery.addEventListener('change', update)
+    } else {
+      mediaQuery.addListener(update)
+    }
+
+    function onStorage() {
+      update()
+      let theme = localStorage.theme
+      if (theme === 'light' || theme === 'dark') {
+        setSetting(theme)
+      } else {
+        setSetting('system')
+      }
+    }
+    window.addEventListener('storage', onStorage)
 
     return () => {
-      prefersDarkQuery.removeEventListener("change", updateTheme);
-    };
-  }, []);
+      if (mediaQuery?.removeEventListener) {
+        mediaQuery.removeEventListener('change', update)
+      } else {
+        mediaQuery.removeListener(update)
+      }
 
-  if (!mounted) return null;
+      window.removeEventListener('storage', onStorage)
+    }
+  }, [])
+
+  return [setting, setSetting]
+}
+
+export default function ThemeSwitcher(props: ThemeSwitcherProps) {
+
+  let [setting, setSetting] = useTheme()
+  const [preferredTheme, setPreferredTheme] = useState<string | null>(null);
+  const [currentIcon, setCurrentIcon] = useState('sun-bright');
 
   return (
     <Popover.Root>
       <Popover.Trigger asChild>
         <button className="inline-flex items-center rounded-full p-3 text-sm font-medium shadow-sm bg-yellow-100 hover:bg-yellow-200 text-slate-900 transition-colors duration-150 ease-in-out">
           <span className="sr-only">Toggle theme</span>
-          <Icon icon='sun-bright' size={20} weight='regular' />
+          <Icon icon={currentIcon!} size={20} weight='regular' />
         </button>
       </Popover.Trigger>
       <Popover.Anchor />
@@ -75,24 +139,27 @@ export default function ThemeSwitcher(props: ThemeSwitcherProps) {
         >
           <Popover.Arrow className="fill-current text-white dark:text-slate-700" />
           <div className="mt-2 grid grid-cols-3 gap-3">
-            {themes.map(({ key, label, icon }) => (
+            {themes.map(({ value, label, icon }) => (
               <button
-                key={key}
+                key={value}
                 className={clsx(
                   "flex flex-col items-center justify-center",
                   "rounded-lg p-3 text-xs",
                   "transition-colors duration-150 ease-in-out",
-                  key === preferredTheme && preferredTheme === "light"
+                  value === preferredTheme && preferredTheme === "light"
                     ? "bg-yellow-100 dark:bg-yellow-900"
-                  : key === preferredTheme && preferredTheme === "dark"
+                  : value === preferredTheme && preferredTheme === "dark"
                     ? "bg-purple-100 dark:bg-purple-800"
-                  : key === preferredTheme && preferredTheme === "system"
+                  : value === preferredTheme && preferredTheme === "system"
                     ? "bg-blue-100 dark:bg-blue-800"
                   : "bg-transparent"
                 )}
                 onClick={() => {
-                  (window as any).__setPreferredTheme(key);
-                  setPreferredTheme(key);
+                  setPreferredTheme(value);
+                  setCurrentIcon(icon);
+                  if (typeof setSetting === 'function') {
+                    setSetting(value);
+                  }
                 }}
               >
                 <Icon icon={icon} size={20} weight='regular' />
