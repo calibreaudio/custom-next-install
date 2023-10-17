@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders homepage unchanged 1`] = `
+<div>
+  <main
+    class="flex min-h-screen flex-col items-center justify-center p-24"
+  >
+    <h1>
+      Hello World
+    </h1>
+    <button
+      aria-controls="radix-:r0:"
+      aria-expanded="false"
+      aria-haspopup="dialog"
+      class="inline-flex items-center rounded-full p-3 text-sm font-medium shadow-sm bg-yellow-100 hover:bg-yellow-200 text-slate-900 transition-colors duration-150 ease-in-out"
+      data-state="closed"
+      type="button"
+    >
+      <span
+        class="sr-only"
+      >
+        Toggle theme
+      </span>
+      <svg
+        aria-hidden="true"
+        height="20"
+        viewBox="0 0 20 20"
+        width="20"
+      >
+        <use
+          fill="currentColor"
+          xlink:href="/sprites/regular.svg#sun-bright"
+        />
+      </svg>
+    </button>
+    <div />
+  </main>
+</div>
+`;
