@@ -12,6 +12,6 @@ const config: Config = {
     require('@tailwindcss/aspect-ratio'),
     require('@tailwindcss/forms'),
   ],
-  darkMode: ["class", ".dark-theme"],
+  darkMode: 'class',
 }
 export default config
