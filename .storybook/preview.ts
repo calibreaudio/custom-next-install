@@ -18,7 +18,7 @@ const preview: Preview = {
         dark: "dark",
       },
       defaultTheme: "light",
-      attributeName: "data-mode",
+      attributeName: "class",
     }),
   ]
 };
