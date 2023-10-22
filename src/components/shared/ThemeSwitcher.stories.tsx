@@ -4,12 +4,14 @@ import ThemeSwitcher from './theme-switcher';
 const meta: Meta<typeof ThemeSwitcher> = {
   title: 'Components/Theme Switcher',
   component: ThemeSwitcher,
-  argTypes: {},
+  argTypes: {
+  },
 };
 
 export default meta;
 type Story = StoryObj<typeof ThemeSwitcher>;
 
 export const Default: Story = {
-  args: {},
+  args: {
+  },
 };

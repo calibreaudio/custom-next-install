@@ -2,14 +2,12 @@
 
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, Fragment } from 'react';
 import { useIsomorphicLayoutEffect } from '@/lib/hooks/useIsomorphicLayoutEffect';
 import useSetting from '@/lib/utils/theme-setting';
-import * as Popover from '@radix-ui/react-popover';
+import { Popover, Transition } from '@headlessui/react';
 import clsx from '@/lib/utils/clsx';
 import Icon from '@/lib/utils/icon';
-
-interface ThemeSwitcherProps {}
 
 function update() {
   document.documentElement.classList.add('changing-theme');
@@ -112,63 +110,70 @@ function useTheme() {
   return [setting, setSetting]
 }
 
-export default function ThemeSwitcher(props: ThemeSwitcherProps) {
+export default function ThemeSwitcher() {
 
   let [setting, setSetting] = useTheme()
   const [preferredTheme, setPreferredTheme] = useState<string | null>(null);
   const [currentIcon, setCurrentIcon] = useState('sun-bright');
 
   return (
-    <Popover.Root>
-      <Popover.Trigger asChild>
-        <button className="inline-flex items-center rounded-full p-3 text-sm font-medium shadow-sm bg-yellow-100 hover:bg-yellow-200 text-slate-900 transition-colors duration-150 ease-in-out">
-          <span className="sr-only">Toggle theme</span>
-          <Icon icon={currentIcon!} size={20} weight='regular' />
-        </button>
-      </Popover.Trigger>
-      <Popover.Anchor />
-      <Popover.Portal>
-        <Popover.Content
-          align="center"
-          sideOffset={4}
-          className={clsx(
-            "radix-side-top:animate-slide-up radix-side-bottom:animate-slide-down",
-            "z-50 w-48 rounded-lg p-4 shadow-md md:w-56",
-            "bg-white dark:bg-slate-700"
-          )}
-        >
-          <Popover.Arrow className="fill-current text-white dark:text-slate-700" />
-          <div className="mt-2 grid grid-cols-3 gap-3">
-            {themes.map(({ value, label, icon }) => (
-              <button
-                key={value}
-                className={clsx(
-                  "flex flex-col items-center justify-center",
-                  "rounded-lg p-3 text-xs",
-                  "transition-colors duration-150 ease-in-out",
-                  value === preferredTheme && preferredTheme === "light"
-                    ? "bg-yellow-100 dark:bg-yellow-900"
-                  : value === preferredTheme && preferredTheme === "dark"
-                    ? "bg-purple-100 dark:bg-purple-800"
-                  : value === preferredTheme && preferredTheme === "system"
-                    ? "bg-blue-100 dark:bg-blue-800"
-                  : "bg-transparent"
-                )}
-                onClick={() => {
-                  setPreferredTheme(value);
-                  setCurrentIcon(icon);
-                  if (typeof setSetting === 'function') {
-                    setSetting(value);
-                  }
-                }}
-              >
-                <Icon icon={icon} size={20} weight='regular' />
-                <span className="mt-2">{label}</span>
-              </button>
-            ))}
-          </div>
-        </Popover.Content>
-      </Popover.Portal>
-    </Popover.Root>
+    <Popover className="relative">
+      {({ open }) => (
+        <>
+          <Popover.Button
+            className="inline-flex items-center rounded-full p-3 text-sm font-medium shadow-sm bg-yellow-100 hover:bg-yellow-200 text-slate-900 transition-colors duration-150 ease-in-out"
+          >
+            <span className="sr-only">Toggle theme</span>
+            <Icon icon={currentIcon!} size={20} weight='regular' />
+          </Popover.Button>
+          <Transition
+              as={Fragment}
+              enter="transition ease-out duration-200"
+              enterFrom="opacity-0 translate-y-1"
+              enterTo="opacity-100 translate-y-0"
+              leave="transition ease-in duration-150"
+              leaveFrom="opacity-100 translate-y-0"
+              leaveTo="opacity-0 translate-y-1"
+            >
+              <Popover.Panel className="absolute left-1/2 z-10 mt-3 w-screen max-w-sm -translate-x-1/2 transform px-3">
+                <div className="overflow-hidden rounded-lg shadow-lg">
+                  <div className="relative bg-white grid grid-cols-3 gap-3 p-3">
+                    <div className="fixed left-1/2 -top-3 text-white -translate-x-1/2">
+                      <Icon icon='caret-up' size={20} weight='solid' />
+                    </div>
+                    {themes.map(({ value, label, icon }) => (
+                      <button
+                        key={value}
+                        className={clsx(
+                          "flex flex-col items-center justify-center text-slate-900 hover:bg-slate-100",
+                          "rounded-lg p-3 text-xs",
+                          "transition-colors duration-150 ease-in-out",
+                          value === preferredTheme && preferredTheme === "light"
+                            ? "bg-yellow-100 dark:bg-yellow-90 dark:text-white0"
+                          : value === preferredTheme && preferredTheme === "dark"
+                            ? "bg-purple-100 dark:bg-purple-800 dark:text-white"
+                          : value === preferredTheme && preferredTheme === "system"
+                            ? "bg-blue-100 dark:bg-blue-800 dark:text-white"
+                          : "bg-transparent"
+                        )}
+                        onClick={() => {
+                          setPreferredTheme(value);
+                          setCurrentIcon(icon);
+                          if (typeof setSetting === 'function') {
+                            setSetting(value);
+                          }
+                        }}
+                      >
+                        <Icon icon={icon} size={20} weight='regular' />
+                        <span className="mt-2">{label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </Popover.Panel>
+            </Transition>
+        </>
+      )}
+    </Popover>
   )
 }
