@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import InlineCheckbox from './inline-checkbox';
+import Checkbox from '@/components/shared/checkboxes/std-checkbox';
 
-const meta: Meta<typeof InlineCheckbox> = {
-  title: 'Components/Inputs/Inline Checkbox',
-  component: InlineCheckbox,
+const meta: Meta<typeof Checkbox> = {
+  title: 'Components/Inputs/Checkbox',
+  component: Checkbox,
   argTypes: {
     label: {
       name: 'Label',
@@ -49,7 +49,7 @@ const meta: Meta<typeof InlineCheckbox> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof InlineCheckbox>;
+type Story = StoryObj<typeof Checkbox>;
 
 export const Default: Story = {
   args: {

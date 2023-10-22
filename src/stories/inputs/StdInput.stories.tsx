@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import Checkbox from './std-checkbox';
+import Input from '@/components/shared/inputs/std-input';
 
-const meta: Meta<typeof Checkbox> = {
-  title: 'Components/Inputs/Checkbox',
-  component: Checkbox,
+const meta: Meta<typeof Input> = {
+  title: 'Components/Inputs/Standard',
+  component: Input,
   argTypes: {
     label: {
       name: 'Label',
@@ -13,6 +13,16 @@ const meta: Meta<typeof Checkbox> = {
     name: {
       name: 'Name',
       defaultValue: 'text',
+      control: 'text',
+    },
+    type: {
+      name: 'Input Type',
+      options: ['text', 'date', 'email', 'number', 'password', 'time', 'url', 'week', 'tel'],
+      control: 'select',
+    },
+    placeholder: {
+      name: 'Placeholder',
+      defaultValue: 'Placeholder text',
       control: 'text',
     },
     description: {
@@ -25,21 +35,6 @@ const meta: Meta<typeof Checkbox> = {
       defaultValue: false,
       control: 'boolean',
     },
-    checked: {
-      name: 'Checked',
-      defaultValue: false,
-      control: 'boolean',
-    },
-    disabled: {
-      name: 'Disabled',
-      defaultValue: false,
-      control: 'boolean',
-    },
-    defaultChecked: {
-      name: 'Default checked',
-      defaultValue: false,
-      control: 'boolean',
-    },
     errors: {
       name: 'Error message',
       defaultValue: '',
@@ -49,17 +44,16 @@ const meta: Meta<typeof Checkbox> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof Checkbox>;
+type Story = StoryObj<typeof Input>;
 
 export const Default: Story = {
   args: {
-    label: 'Input',
+    label: 'This is a label',
     name: 'Name',
+    type: 'text',
+    placeholder: 'Placeholder',
     description: 'This is a description',
     required: false,
-    checked: false,
-    disabled: false,
-    defaultChecked: false,
     errors: '',
   },
 };

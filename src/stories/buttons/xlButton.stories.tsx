@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { xLargeButton } from './std-buttons';
+import { xLargeButton } from '@/components/shared/buttons/std-buttons';
 
 const meta: Meta<typeof xLargeButton> = {
   title: 'Components/Buttons/Standard',

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { smallButton } from './std-buttons';
+import { smallButton } from '@/components/shared/buttons/std-buttons';
 
 const meta: Meta<typeof smallButton> = {
   title: 'Components/Buttons/Standard',

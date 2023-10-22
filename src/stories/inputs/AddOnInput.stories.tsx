@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import AddOnInput from './add-on-input';
+import AddOnInput from '@/components/shared/inputs/add-on-input';
 
 const meta: Meta<typeof AddOnInput> = {
   title: 'Components/Inputs/Add-on',

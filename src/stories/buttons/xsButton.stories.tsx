@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { largeButton } from './std-buttons';
+import { xSmallButton } from '@/components/shared/buttons/std-buttons';
 
-const meta: Meta<typeof largeButton> = {
+const meta: Meta<typeof xSmallButton> = {
   title: 'Components/Buttons/Standard',
-  component: largeButton,
+  component: xSmallButton,
   argTypes: {
     type: {
       name: 'Type',
@@ -51,9 +51,9 @@ const meta: Meta<typeof largeButton> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof largeButton>;
+type Story = StoryObj<typeof xSmallButton>;
 
-export const Large: Story = {
+export const ExtraSmall: Story = {
   args: {
     type: 'button',
     label: 'Click me',
