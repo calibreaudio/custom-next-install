@@ -4,6 +4,6 @@
 
 @layer base {
 	body {
-		@apply bg-calibre-slate-50 text-calibre-slate-900 dark:bg-calibre-slate-800 dark:text-calibre-slate-50 min-h-screen relative;
+		@apply bg-slate-50 text-slate-900 dark:bg-slate-800 dark:text-slate-50 min-h-screen relative;
 	}
 }

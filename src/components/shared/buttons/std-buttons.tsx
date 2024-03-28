@@ -13,9 +13,9 @@ type Props = Omit<React.ComponentProps<"button">, "className"> & {
   autoFocus?: boolean;
 };
 
-const sharedClasses = ' font-semibold text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 transition ease-in-out duration-150'
-const ableClasses = 'bg-pink-600 hover:bg-pink-700'
-const disabledClasses = 'bg-slate-300 text-slate-500 shadow-none cursor-not-allowed'
+const sharedClasses = ' font-semibold text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-calibre-pink-500 transition ease-in-out duration-150'
+const ableClasses = 'bg-calibre-pink-500 hover:bg-calibre-pink-600'
+const disabledClasses = 'bg-calibre-slate-300 text-calibre-slate-500 shadow-none cursor-not-allowed'
 
 const xSmallButton = React.forwardRef<HTMLButtonElement, Props>(
   ({
