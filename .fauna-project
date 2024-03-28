@@ -1,0 +1,10 @@
+schema_directory=fauna
+default=dev
+
+[environment.dev]
+endpoint=cloud-eu
+database=dev
+
+[environment.prod]
+endpoint=cloud-eu
+database=prod
