@@ -18,13 +18,13 @@ function update() {
     document.documentElement.classList.add('dark');
     const themeColorMeta = document.querySelector('meta[name="theme-color"]');
     if (themeColorMeta) {
-      themeColorMeta.setAttribute('content', '#0f172a');
+      themeColorMeta.setAttribute('content', '#141b21');
     }
   } else {
     document.documentElement.classList.remove('dark');
     const themeColorMeta = document.querySelector('meta[name="theme-color"]');
     if (themeColorMeta) {
-      themeColorMeta.setAttribute('content', '#f1f5f9');
+      themeColorMeta.setAttribute('content', '#f1f8ff');
     }
   }
   window.setTimeout(() => {
@@ -121,7 +121,7 @@ export default function ThemeSwitcher() {
       {({ open }) => (
         <>
           <Popover.Button
-            className="inline-flex items-center rounded-full p-3 text-sm font-medium shadow-sm bg-yellow-100 hover:bg-yellow-200 text-slate-900 transition-colors duration-150 ease-in-out"
+            className="inline-flex items-center rounded-full p-3 text-sm font-medium shadow-sm bg-calibre-yellow-200 hover:bg-calibre-yellow-200 text-calibre-slate-900 transition-colors duration-150 ease-in-out"
           >
             <span className="sr-only">Toggle theme</span>
             <Icon icon={currentIcon!} size={20} weight='regular' />
@@ -145,15 +145,15 @@ export default function ThemeSwitcher() {
                       <button
                         key={value}
                         className={clsx(
-                          "flex flex-col items-center justify-center text-slate-900 hover:bg-slate-100",
+                          "flex flex-col items-center justify-center text-calibre-slate-900 hover:bg-calibre-slate-100",
                           "rounded-lg p-3 text-xs",
                           "transition-colors duration-150 ease-in-out",
                           value === preferredTheme && preferredTheme === "light"
-                            ? "bg-yellow-100 dark:bg-yellow-90 dark:text-white0"
+                            ? "bg-calibre-yellow-100 dark:bg-calibre-yellow-90 dark:text-white"
                           : value === preferredTheme && preferredTheme === "dark"
-                            ? "bg-purple-100 dark:bg-purple-800 dark:text-white"
+                            ? "bg-calibre-purple-100 dark:bg-calibre-purple-800 dark:text-white"
                           : value === preferredTheme && preferredTheme === "system"
-                            ? "bg-blue-100 dark:bg-blue-800 dark:text-white"
+                            ? "bg-calibre-blue-100 dark:bg-calibre-blue-800 dark:text-white"
                           : "bg-transparent"
                         )}
                         onClick={() => {
